@@ -2,15 +2,17 @@
 
 A big ol' fashioned pile of hacks, and some commands.
 
-- [Snippets](#Snippets)
-  - [Android](#Android)
-    - [Disable vibration for an app](#Disable-vibration-for-an-app)
-    - [Diagnosing phantom notifications](#Diagnosing-phantom-notifications)
-  - [Bitcoin](#Bitcoin)
-    - [Wallet password recovery](#Wallet-password-recovery)
-  - [Docker](#Docker)
-    - [Installing on Windows 10 non-Pro/Enterprise/Educational](#Installing-on-Windows-10-non-ProEnterpriseEducational)
-      - [Dealing with that Powershell error](#Dealing-with-that-Powershell-error)
+- [Snippets](#snippets)
+  - [Android](#android)
+    - [Disable vibration for an app](#disable-vibration-for-an-app)
+    - [Diagnosing phantom notifications](#diagnosing-phantom-notifications)
+  - [Bitcoin](#bitcoin)
+    - [Wallet password recovery](#wallet-password-recovery)
+  - [Docker](#docker)
+    - [Installing on Windows 10 non-Pro/Enterprise/Educational](#installing-on-windows-10-non-proenterpriseeducational)
+      - [Dealing with that Powershell error](#dealing-with-that-powershell-error)
+  - [Powershell](#powershell)
+  - [Raspberry Pi](#raspberry-pi)
 
 ## Android
 
@@ -119,3 +121,16 @@ netsh interface ipv4 set address name="vEthernet (DockerNAT)" static 10.0.75.1 2
 You have to run this command everytime whenever you are doing system restart and docker completes start process (due to any reason). TIP : create a batch file of this command and save somewhere handy.
 
 Note: The ps hack would get undone by any docker update. so be aware...
+
+## Powershell
+
+`ssh-keygen`
+
+## Raspberry Pi
+
+```bash
+raspi-config
+
+raspistill -v -o test.jpg
+
+vcgencmd get_camera
