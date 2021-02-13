@@ -1,0 +1,14 @@
+[Unit]
+Description="sia daemon"
+After=multi-user.target
+
+[Service]
+Type=idle
+User=tgb
+Group=tgb
+WorkingDirectory=/home/tgb/programs/sia
+EnvironmentFile=/home/tgb/programs/sia/env.txt
+ExecStart=/home/tgb/programs/sia/siad
+
+[Install]
+WantedBy=multi-user.target

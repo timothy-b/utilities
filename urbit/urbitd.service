@@ -1,0 +1,14 @@
+[Unit]
+Description="urbit daemon"
+After=multi-user.target
+
+[Service]
+Type=idle
+WorkingDirectory=/home/tgb/programs/urbit
+ExecStart=/home/tgb/programs/urbit/run_urbit.sh
+StandardInput=tty
+TTYPath=/dev/tty52
+TTYReset=yes
+
+[Install]
+WantedBy=multi-user.target
