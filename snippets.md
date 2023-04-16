@@ -134,3 +134,44 @@ raspi-config
 raspistill -v -o test.jpg
 
 vcgencmd get_camera
+
+
+## Linux
+
+### Sway
+#### cheatsheet:
+https://wiki.garudalinux.org/en/sway-cheatsheet
+
+#### enabling numlock on boot
+https://wiki.archlinux.org/title/Sway#Initially_enable_CapsLock/NumLock
+
+#### setting up monitors
+* edit `~/.config/sway/config.d/output`
+
+### Firefox / Pale Moon / LibreWolf / FireDragon
+
+#### enabling middle mouse scroll
+https://wiki.gentoo.org/wiki/Firefox#Middle_mouse_scroll_.28autoscroll.29
+
+#### fixing downloads
+https://www.reddit.com/r/LibreWolf/comments/103gqhc/librewolf_does_not_save_anything/
+
+### setting permanent mount point for hard drive
+https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Windows
+
+1. get user ID with `id -u`
+2. get group ID with `id -g`
+3. get disk partition with `fdisk -l`
+4. get UUID with `blkid`
+5. edit /etc/fstab with entry like so:
+        `UUID=38CE9483CE943AD8 /media/gamedisk ntfs uid=1000,gid=1000,rw,user,exec,umask=000 0 0`
+
+### fan control
+https://github.com/Eraden/amdgpud
+
+* monitor GPU temp & fan speed with `amdmond watch --format short`
+* edit control matrix at `/etc/amdfand/config.toml`
+* apply changes with `amdfand service`
+
+### proton
+install `protonup-qt-bin`, get latest GE version
