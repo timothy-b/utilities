@@ -153,6 +153,9 @@ https://wiki.archlinux.org/title/Sway#Initially_enable_CapsLock/NumLock
 #### enabling middle mouse scroll
 https://wiki.gentoo.org/wiki/Firefox#Middle_mouse_scroll_.28autoscroll.29
 
+#### Enabling scrollable tabs via mouse wheel
+Go to `about:config`, search for `toolkit.tabbox.switchByScrolling`, set to true.
+
 #### fixing downloads
 https://www.reddit.com/r/LibreWolf/comments/103gqhc/librewolf_does_not_save_anything/
 
