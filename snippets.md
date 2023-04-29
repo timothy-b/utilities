@@ -148,6 +148,26 @@ https://wiki.archlinux.org/title/Sway#Initially_enable_CapsLock/NumLock
 #### setting up monitors
 * edit `~/.config/sway/config.d/output`
 
+#### running X apps as root
+`host si:localuser:root`
+
+Without this, you'll see errors like:
+```
+Authorization required, but no authorization protocol specified
+
+qt.qpa.xcb: could not connect to display :0
+qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it was found.
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, xcb.
+
+fish: Job 1, 'sudo garuda-boot-options' terminated by signal SIGABRT (Abort)
+```
+
+#### Setting the login background
+Open /etc/qtgreet/config.ini
+Change `Background`
+
 ### Firefox / Pale Moon / LibreWolf / FireDragon
 
 #### enabling middle mouse scroll
