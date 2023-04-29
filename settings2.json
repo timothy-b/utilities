@@ -1,0 +1,31 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "telemetry.telemetryLevel": "error",
+  "particle.targetDevice": "IOTSEC",
+  "particle.firmwareVersion": "2.0.1",
+  "particle.targetPlatform": "photon",
+  "particle.disableWelcomeScreen": true,
+  "particle.enableVerboseLocalCompilerLogging": true,
+  "particle.compileDefines": [
+    "SERVER_ROUTEHEADER=POST /iotsec/alertDoorOpened HTTP/1.1",
+    "SERVER_HOSTNAME=raspberrypi.local",
+    "SERVER_AUTHHEADER=Authorization: REDACTED"
+  ],
+  "monkeyC.developerKeyPath": "c:\\Users\\timothy\\.ssh\\developer_key",
+  "security.workspace.trust.untrustedFiles": "open",
+  "security.workspace.trust.startupPrompt": "never",
+  "security.workspace.trust.banner": "never",
+  "security.workspace.trust.enabled": false,
+  "editor.renderWhitespace": "all",
+  "workbench.colorCustomizations": {
+    "[Default Dark+]": {
+      "editor.background": "#000000"
+    }
+  },
+  "svelte.enable-ts-plugin": true
+}

@@ -13,10 +13,27 @@ A big ol' fashioned pile of hacks, and some commands.
       - [Dealing with that Powershell error](#dealing-with-that-powershell-error)
   - [Powershell](#powershell)
   - [Raspberry Pi](#raspberry-pi)
+  - [Linux](#linux)
+    - [Sway](#sway)
+      - [cheatsheet:](#cheatsheet)
+      - [enabling numlock on boot](#enabling-numlock-on-boot)
+      - [setting up monitors](#setting-up-monitors)
+      - [running X apps as root](#running-x-apps-as-root)
+      - [Setting the login background](#setting-the-login-background)
+    - [Firefox / Pale Moon / LibreWolf / FireDragon](#firefox--pale-moon--librewolf--firedragon)
+      - [enabling middle mouse scroll](#enabling-middle-mouse-scroll)
+      - [Enabling scrollable tabs via mouse wheel](#enabling-scrollable-tabs-via-mouse-wheel)
+      - [fixing downloads](#fixing-downloads)
+    - [setting permanent mount point for hard drive](#setting-permanent-mount-point-for-hard-drive)
+    - [fan control](#fan-control)
+    - [proton](#proton)
+  - [Windows](#windows)
+    - [Disabling auto-wake-up scheduled task](#disabling-auto-wake-up-scheduled-task)
 
 ## Android
 
-### Disable vibration for an app 
+### Disable vibration for an app
+
 https://www.xda-developers.com/stop-vibrations-android-apps/
 
 e.g., com.twitter.android
@@ -25,9 +42,11 @@ e.g., com.twitter.android
 adb shell
 cmd appops set com.twitter.android VIBRATE ignore
 ```
+
 "You won’t see any confirmation in the prompt, but as long as you don’t get an error message it should have worked."
 
 ### Diagnosing phantom notifications
+
 https://www.theverge.com/2018/10/19/18001608/android-notification-history-how-to-view
 
 1. Long press anywhere on your home screen
@@ -40,19 +59,23 @@ https://www.theverge.com/2018/10/19/18001608/android-notification-history-how-to
 ## Bitcoin
 
 ### Wallet password recovery
+
 https://github.com/gurnec/btcrecover
 
 Running straight against the wallet:
+
 ```cmd
 python btcrecover.py --wallet forgotpw_wallet --autosave savefile --tokenlist tokens.txt
 ```
 
 Extracting the vital info:
+
 ```cmd
 python extract-scripts\extract-electrum2-partmpk.py forgotpw_wallet
 ```
 
 Running against the vital info:
+
 ```cmd
 python btcrecover.py --data-extract --autosave savefile --tokenlist tokens.txt
 ```
@@ -66,7 +89,8 @@ python btcrecover.py --data-extract --autosave savefile --tokenlist tokens.txt
 ### Installing on Windows 10 non-Pro/Enterprise/Educational
 
 https://forums.docker.com/t/installing-docker-on-windows-10-home/11722/29
-1. Open Regedit. 
+
+1. Open Regedit.
 2. Go to `Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion`
 3. Change the value of `EditionID` to `Professional`.
 4. Change the value of `ProductName` to `Windows 10 Pro`.
@@ -75,6 +99,7 @@ https://forums.docker.com/t/installing-docker-on-windows-10-home/11722/29
 7. Change the above registry keys back.
 
 #### Dealing with that Powershell error
+
 https://stackoverflow.com/questions/42950853/docker-the-computer-windows10-on-se-could-not-be-resolved/45099242#45099242
 
 ```
@@ -92,6 +117,7 @@ Note: The ps hack would get undone by any docker update. so be aware...
 **Hack**
 
 Open C:\Program Files\Docker\Docker\resources\mobylinux.ps1 with any editor in admin mode. Find following code (around line 164)
+
 ```
 $networkAdapter | Remove-NetIPAddress -Confirm:$false -ea SilentlyContinue
 
@@ -134,25 +160,32 @@ raspi-config
 raspistill -v -o test.jpg
 
 vcgencmd get_camera
-
+```
 
 ## Linux
 
 ### Sway
+
 #### cheatsheet:
+
 https://wiki.garudalinux.org/en/sway-cheatsheet
 
 #### enabling numlock on boot
+
 https://wiki.archlinux.org/title/Sway#Initially_enable_CapsLock/NumLock
 
 #### setting up monitors
-* edit `~/.config/sway/config.d/output`
+
+- edit `~/.config/sway/config.d/output`
 
 #### running X apps as root
+
 `host si:localuser:root`
 
 Without this, you'll see errors like:
+
 ```
+
 Authorization required, but no authorization protocol specified
 
 qt.qpa.xcb: could not connect to display :0
@@ -162,24 +195,30 @@ This application failed to start because no Qt platform plugin could be initiali
 Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, xcb.
 
 fish: Job 1, 'sudo garuda-boot-options' terminated by signal SIGABRT (Abort)
+
 ```
 
 #### Setting the login background
+
 Open /etc/qtgreet/config.ini
 Change `Background`
 
 ### Firefox / Pale Moon / LibreWolf / FireDragon
 
 #### enabling middle mouse scroll
+
 https://wiki.gentoo.org/wiki/Firefox#Middle_mouse_scroll_.28autoscroll.29
 
 #### Enabling scrollable tabs via mouse wheel
+
 Go to `about:config`, search for `toolkit.tabbox.switchByScrolling`, set to true.
 
 #### fixing downloads
+
 https://www.reddit.com/r/LibreWolf/comments/103gqhc/librewolf_does_not_save_anything/
 
 ### setting permanent mount point for hard drive
+
 https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Windows
 
 1. get user ID with `id -u`
@@ -187,14 +226,32 @@ https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Wi
 3. get disk partition with `fdisk -l`
 4. get UUID with `blkid`
 5. edit /etc/fstab with entry like so:
-        `UUID=38CE9483CE943AD8 /media/gamedisk ntfs uid=1000,gid=1000,rw,user,exec,umask=000 0 0`
+   `UUID=38CE9483CE943AD8 /media/gamedisk ntfs uid=1000,gid=1000,rw,user,exec,umask=000 0 0`
 
 ### fan control
+
 https://github.com/Eraden/amdgpud
 
-* monitor GPU temp & fan speed with `amdmond watch --format short`
-* edit control matrix at `/etc/amdfand/config.toml`
-* apply changes with `amdfand service`
+- monitor GPU temp & fan speed with `amdmond watch --format short`
+- edit control matrix at `/etc/amdfand/config.toml`
+- apply changes with `amdfand service`
 
 ### proton
+
 install `protonup-qt-bin`, get latest GE version
+
+## Windows
+
+### Disabling auto-wake-up scheduled task
+
+powercfg /lastwake
+
+https://answers.microsoft.com/en-us/windows/forum/all/no-permission-to-disable-a-task-in-task-scheduler/4ec2c460-7c2f-4593-b84f-c9b1687ae797
+
+https://download.sysinternals.com/files/PSTools.zip
+
+psexec.exe -i -s %windir%\system32\mmc.exe /s taskschd.msc
+
+```
+
+```
