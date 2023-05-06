@@ -180,7 +180,7 @@ https://wiki.archlinux.org/title/Sway#Initially_enable_CapsLock/NumLock
 
 #### running X apps as root
 
-`host si:localuser:root`
+`xhost si:localuser:root`
 
 Without this, you'll see errors like:
 
@@ -239,6 +239,32 @@ https://github.com/Eraden/amdgpud
 ### proton
 
 install `protonup-qt-bin`, get latest GE version
+
+### Reinstalling Grub when it breaks
+From liveusb, mount encrypted drive:
+
+https://forums.opensuse.org/t/how-do-you-mount-an-encrypted-drive-from-the-command-line/135136
+
+`fdisk -l` to find drive, partition, & boot partition
+
+```bash
+mkdir /mnt
+mkdir /mnt/garuda
+cryptsetup luksOpen /dev/nvme0n1p4 garuda
+mount /dev/mapper/garuda /mnt/garuda
+```
+
+Then chroot & reinstall Grub:
+
+https://forum.garudalinux.org/t/grub-fails-after-update/78
+
+```sh
+garuda-chroot /mnt/garuda/@ #chroot in
+mount /dev/nvme0n1p5 /boot/efi #mount boot partition
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=garuda --recheck #install Grub
+update-grub #update Grub
+exit
+```
 
 ## Windows
 
