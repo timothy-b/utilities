@@ -174,6 +174,10 @@ https://wiki.garudalinux.org/en/sway-cheatsheet
 
 https://wiki.archlinux.org/title/Sway#Initially_enable_CapsLock/NumLock
 
+edit `.config/sway/config.d/input`
+
+append `input type:keyboard xkb_numlock enabled`
+
 #### setting up monitors
 
 - edit `~/.config/sway/config.d/output`
@@ -185,7 +189,6 @@ https://wiki.archlinux.org/title/Sway#Initially_enable_CapsLock/NumLock
 Without this, you'll see errors like:
 
 ```
-
 Authorization required, but no authorization protocol specified
 
 qt.qpa.xcb: could not connect to display :0
@@ -200,8 +203,18 @@ fish: Job 1, 'sudo garuda-boot-options' terminated by signal SIGABRT (Abort)
 
 #### Setting the login background
 
-Open /etc/qtgreet/config.ini
+Edit `/etc/qtgreet/config.ini`
 Change `Background`
+
+#### Setting the lockscreen background
+
+Edit `~/.config/swaylock/config`
+Change `image=`
+
+#### Change lock binding to Ctrl+Win+l
+Edit `.config/sway/config.d/default`
+
+Under `Lock Screen`, append `bindsym $mod+Ctrl+l exec ~/.config/sway/scripts/lockman.sh`
 
 ### Firefox / Pale Moon / LibreWolf / FireDragon
 
