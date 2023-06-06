@@ -216,6 +216,14 @@ Edit `.config/sway/config.d/default`
 
 Under `Lock Screen`, append `bindsym $mod+Ctrl+l exec ~/.config/sway/scripts/lockman.sh`
 
+#### Move between workspaces like Windows virtual desktops
+Edit `~/.config/sway/config.d/default`
+Add:
+```
+bindsym Ctrl+$mod+Left workspace prev
+bindsym Ctrl+$mod+Right workspace next
+```
+
 ### Firefox / Pale Moon / LibreWolf / FireDragon
 
 #### enabling middle mouse scroll
