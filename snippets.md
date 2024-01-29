@@ -164,13 +164,26 @@ vcgencmd get_camera
 
 ## Linux
 
+### Alacritty
+
+#### Fix config errors
+_[WARN] see log at /tmp/Alacritty-2994.log ($ALACRITTY_LOG): Unused config key: colors.footer_bar_
+
+`alacritty migrate`
+
+Then comment out obsolete properties until errors stop showing from `~/.config/alacritty/alacritty.toml`. Repeat for dynamic_padding and window.opacity.
+
+### Garuda
+#### If Add/Remove Software doesn't show up as a menu option
+```pacman -Syu pamac-aur```
+
 ### Sway
 
 #### cheatsheet:
 
 https://wiki.garudalinux.org/en/sway-cheatsheet
 
-#### enabling numlock on boot
+#### Enabling numlock on boot
 
 https://wiki.archlinux.org/title/Sway#Initially_enable_CapsLock/NumLock
 
@@ -178,17 +191,35 @@ edit `.config/sway/config.d/input`
 
 append `input type:keyboard xkb_numlock enabled`
 
-#### setting up monitors
+#### Setting up monitors
+Use `wdisplays` ("Displays") to arrange monitors.
 
-- edit `~/.config/sway/config.d/output`
 
-#### running X apps as root
+Then `swaymst -t get_outputs` to get current config.
+
+Then edit `~/.config/sway/config.d/output`.
+
+my config:
+```
+output DP-1 mode 2560x1440@154Hz position 1440 0
+output HDMI-A-1 resolution 1440x900 position 0 540
+```
+
+#### Running X apps as root
+
+Make sure the output of `pgrep -af polkit` indicates that you have a polkit daemon & agent running:
+```bash
+883 /usr/lib/polkit-1/polkitd --no-debug
+2122 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+```
+
+Then try:
 
 `xhost si:localuser:root`
 
 Without this, you'll see errors like:
 
-```
+```bash
 Authorization required, but no authorization protocol specified
 
 qt.qpa.xcb: could not connect to display :0
@@ -198,13 +229,35 @@ This application failed to start because no Qt platform plugin could be initiali
 Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, xcb.
 
 fish: Job 1, 'sudo garuda-boot-options' terminated by signal SIGABRT (Abort)
-
 ```
 
-#### Setting the login background
+If that doesn't do the trick, e.g, pacmac-manager is silently not able to install from AUR, then create `~/.config/environment.d/.conf` with contents:
+```
+DISPLAY=:0
+WAYLAND_DISPLAY=wayland-0
+```
+and reboot. See https://github.com/keybase/client/issues/19614 for details.
 
-Edit `/etc/qtgreet/config.ini`
-Change `Background`
+Docker (and specifically containerd) can also cause polkit issues. Try disabling docker, docker.socket, and containerd. See https://bbs.archlinux.org/viewtopic.php?id=284158&p=2 for details.
+
+
+#### Setting the login background
+Set `Background = none` in `/etc/qtgreet/config.ini`
+
+#### Set desktop background
+https://wiki.archlinux.org/title/Sway#Wallpaper
+
+#### Fix all workspaces being displayed on all monitors
+Edit `~/.config/waybar/config`
+
+Set `"all-outputs": false`
+
+#### Set default web browser
+Edit `~/.profile`
+Set `BROWSER=brave`
+
+Edit `~/.config/sway/config.d/default`
+`set bindsym $mod+o exec firedragon` -> `set bindsym $mod+o exec brave`
 
 #### Setting the lockscreen background
 
@@ -226,19 +279,21 @@ bindsym Ctrl+$mod+Right workspace next
 
 ### Firefox / Pale Moon / LibreWolf / FireDragon
 
-#### enabling middle mouse scroll
-
+#### Enabling middle mouse scroll
 https://wiki.gentoo.org/wiki/Firefox#Middle_mouse_scroll_.28autoscroll.29
+
+##### on Brave:
+https://chromewebstore.google.com/detail/autoscroll/occjjkgifpmdgodlplnacmkejpdionan
 
 #### Enabling scrollable tabs via mouse wheel
 
 Go to `about:config`, search for `toolkit.tabbox.switchByScrolling`, set to true.
 
-#### fixing downloads
+#### Fixing downloads
 
 https://www.reddit.com/r/LibreWolf/comments/103gqhc/librewolf_does_not_save_anything/
 
-### setting permanent mount point for hard drive
+### Setting permanent mount point for hard drive
 
 https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Windows
 
@@ -249,17 +304,19 @@ https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Wi
 5. edit /etc/fstab with entry like so:
    `UUID=38CE9483CE943AD8 /media/gamedisk ntfs uid=1000,gid=1000,rw,user,exec,umask=000 0 0`
 
-### fan control
+### Fan control
 
 https://github.com/Eraden/amdgpud
+
+_available in AUR_
 
 - monitor GPU temp & fan speed with `amdmond watch --format short`
 - edit control matrix at `/etc/amdfand/config.toml`
 - apply changes with `amdfand service`
 
-### proton
+### Proton
 
-install `protonup-qt-bin`, get latest GE version
+Install Steam and then `protonup-qt-bin`, get latest GE version.
 
 ### Reinstalling Grub when it breaks
 From liveusb, mount encrypted drive:
@@ -299,6 +356,3 @@ https://download.sysinternals.com/files/PSTools.zip
 
 psexec.exe -i -s %windir%\system32\mmc.exe /s taskschd.msc
 
-```
-
-```
