@@ -1,0 +1,15 @@
+tgb-io.ddns.net {
+	reverse_proxy /iotsec/* http://10.0.0.3
+}
+
+https://tgb-io.ddns.net:443 {
+    reverse_proxy 10.0.0.10:11000
+}
+
+https://tgb-io.ddns.net:8443 {
+    reverse_proxy https://10.0.0.10:8080 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+    }
+}
