@@ -277,6 +277,15 @@ bindsym Ctrl+$mod+Left workspace prev
 bindsym Ctrl+$mod+Right workspace next
 ```
 
+#### Open calculator with keyboard key
+
+Edit `~/.config/sway/config.d/default`
+Add `bindsym XF86Calculator exec gnome-calculator`
+
+To make it float instead of tile:
+Edit `~/.config/sway/config.d/application_defaults`
+Add `for_window [app_id="Calculator"] floating enable`
+
 ### Firefox / Pale Moon / LibreWolf / FireDragon
 
 #### Enabling middle mouse scroll
