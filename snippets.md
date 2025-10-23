@@ -2,6 +2,8 @@
 
 A big ol' fashioned pile of hacks, and some commands.
 
+<!-- TOC -->
+
 - [Snippets](#snippets)
   - [Android](#android)
     - [Disable vibration for an app](#disable-vibration-for-an-app)
@@ -10,25 +12,22 @@ A big ol' fashioned pile of hacks, and some commands.
     - [Wallet password recovery](#wallet-password-recovery)
   - [Docker](#docker)
     - [Installing on Windows 10 non-Pro/Enterprise/Educational](#installing-on-windows-10-non-proenterpriseeducational)
-      - [Dealing with that Powershell error](#dealing-with-that-powershell-error)
   - [Powershell](#powershell)
   - [Raspberry Pi](#raspberry-pi)
   - [Linux](#linux)
+    - [Alacritty](#alacritty)
+    - [Garuda](#garuda)
     - [Sway](#sway)
-      - [cheatsheet:](#cheatsheet)
-      - [enabling numlock on boot](#enabling-numlock-on-boot)
-      - [setting up monitors](#setting-up-monitors)
-      - [running X apps as root](#running-x-apps-as-root)
-      - [Setting the login background](#setting-the-login-background)
     - [Firefox / Pale Moon / LibreWolf / FireDragon](#firefox--pale-moon--librewolf--firedragon)
-      - [enabling middle mouse scroll](#enabling-middle-mouse-scroll)
-      - [Enabling scrollable tabs via mouse wheel](#enabling-scrollable-tabs-via-mouse-wheel)
-      - [fixing downloads](#fixing-downloads)
-    - [setting permanent mount point for hard drive](#setting-permanent-mount-point-for-hard-drive)
-    - [fan control](#fan-control)
-    - [proton](#proton)
+    - [Setting permanent mount point for hard drive](#setting-permanent-mount-point-for-hard-drive)
+    - [Fan control](#fan-control)
+    - [Preventing immediate wakeup from suspend](#preventing-immediate-wakeup-from-suspend)
+    - [Proton](#proton)
+    - [Reinstalling Grub when it breaks](#reinstalling-grub-when-it-breaks)
   - [Windows](#windows)
     - [Disabling auto-wake-up scheduled task](#disabling-auto-wake-up-scheduled-task)
+
+<!-- /TOC -->
 
 ## Android
 
@@ -167,6 +166,7 @@ vcgencmd get_camera
 ### Alacritty
 
 #### Fix config errors
+
 _[WARN] see log at /tmp/Alacritty-2994.log ($ALACRITTY_LOG): Unused config key: colors.footer_bar_
 
 `alacritty migrate`
@@ -174,8 +174,10 @@ _[WARN] see log at /tmp/Alacritty-2994.log ($ALACRITTY_LOG): Unused config key: 
 Then comment out obsolete properties until errors stop showing from `~/.config/alacritty/alacritty.toml`. Repeat for dynamic_padding and window.opacity.
 
 ### Garuda
+
 #### If Add/Remove Software doesn't show up as a menu option
-```pacman -Syu pamac-aur```
+
+`pacman -Syu pamac-aur`
 
 ### Sway
 
@@ -192,14 +194,15 @@ edit `.config/sway/config.d/input`
 append `input type:keyboard xkb_numlock enabled`
 
 #### Setting up monitors
-Use `wdisplays` ("Displays") to arrange monitors.
 
+Use `wdisplays` ("Displays") to arrange monitors.
 
 Then `swaymst -t get_outputs` to get current config.
 
 Then edit `~/.config/sway/config.d/output`.
 
 my config:
+
 ```
 output DP-1 mode 2560x1440@154Hz position 1440 0
 output HDMI-A-1 resolution 1440x900 position 0 540
@@ -208,6 +211,7 @@ output HDMI-A-1 resolution 1440x900 position 0 540
 #### Running X apps as root
 
 Make sure the output of `pgrep -af polkit` indicates that you have a polkit daemon & agent running:
+
 ```bash
 883 /usr/lib/polkit-1/polkitd --no-debug
 2122 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -232,27 +236,32 @@ fish: Job 1, 'sudo garuda-boot-options' terminated by signal SIGABRT (Abort)
 ```
 
 If that doesn't do the trick, e.g, pacmac-manager is silently not able to install from AUR, then create `~/.config/environment.d/.conf` with contents:
+
 ```
 DISPLAY=:0
 WAYLAND_DISPLAY=wayland-0
 ```
+
 and reboot. See https://github.com/keybase/client/issues/19614 for details.
 
 Docker (and specifically containerd) can also cause polkit issues. Try disabling docker, docker.socket, and containerd. See https://bbs.archlinux.org/viewtopic.php?id=284158&p=2 for details.
 
-
 #### Setting the login background
+
 Set `Background = none` in `/etc/qtgreet/config.ini`
 
 #### Set desktop background
+
 https://wiki.archlinux.org/title/Sway#Wallpaper
 
 #### Fix all workspaces being displayed on all monitors
+
 Edit `~/.config/waybar/config`
 
 Set `"all-outputs": false`
 
 #### Set default web browser
+
 Edit `~/.profile`
 Set `BROWSER=brave`
 
@@ -265,16 +274,19 @@ Edit `~/.config/swaylock/config`
 Change `image=`
 
 #### Change lock binding to Ctrl+Win+l
+
 Edit `.config/sway/config.d/default`
 
 Under `Lock Screen`, append `bindsym $mod+Ctrl+l exec ~/.config/sway/scripts/lockman.sh`
 
-#### Move between workspaces like Windows virtual desktops
+#### Move between workspaces like Windows or MacOS virtual desktops
+
 Edit `~/.config/sway/config.d/default`
 Add:
+
 ```
-bindsym Ctrl+$mod+Left workspace prev
-bindsym Ctrl+$mod+Right workspace next
+bindsym Ctrl+$mod+Left workspace prev_on_output
+bindsym Ctrl+$mod+Right workspace next_on_output
 ```
 
 #### Open calculator with keyboard key
@@ -289,9 +301,11 @@ Add `for_window [app_id="Calculator"] floating enable`
 ### Firefox / Pale Moon / LibreWolf / FireDragon
 
 #### Enabling middle mouse scroll
+
 https://wiki.gentoo.org/wiki/Firefox#Middle_mouse_scroll_.28autoscroll.29
 
 ##### on Brave:
+
 https://chromewebstore.google.com/detail/autoscroll/occjjkgifpmdgodlplnacmkejpdionan
 
 #### Enabling scrollable tabs via mouse wheel
@@ -323,11 +337,47 @@ _available in AUR_
 - edit control matrix at `/etc/amdfand/config.toml`
 - apply changes with `amdfand service`
 
+### Preventing immediate wakeup from suspend
+
+Identify wakey device:
+
+```bash
+cat /proc/acpi/wakeup
+```
+
+In my case it was XHC0. Use `lspci -v` to check against the above output, and disable a device with:
+
+```bash
+echo "XHC0" > /proc/acpi/wakeup
+```
+
+To make the change permanent, make a SystemD service:
+
+```ini
+[Unit]
+Description=Disable devices for wakeup, as a fix to prevent system from waking immediately after suspend
+
+[Service]
+ExecStart=/bin/sh -c '/bin/echo XHC0 > /proc/acpi/wakeup'
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+```
+
+And enable it:
+
+```bash
+sudo systemctl enable /home/tgb/.config/disable_devices_from_wakeup.services
+```
+
 ### Proton
 
 Install Steam and then `protonup-qt-bin`, get latest GE version.
 
 ### Reinstalling Grub when it breaks
+
 From liveusb, mount encrypted drive:
 
 https://forums.opensuse.org/t/how-do-you-mount-an-encrypted-drive-from-the-command-line/135136
@@ -364,4 +414,3 @@ https://answers.microsoft.com/en-us/windows/forum/all/no-permission-to-disable-a
 https://download.sysinternals.com/files/PSTools.zip
 
 psexec.exe -i -s %windir%\system32\mmc.exe /s taskschd.msc
-
