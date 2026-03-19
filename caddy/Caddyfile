@@ -1,11 +1,29 @@
+{
+#    debug
+}
+
 tgb-io.ddns.net {
-	reverse_proxy /iotsec/* http://10.0.0.3
+    redir /gotify /gotify/
+    reverse_proxy /iotsec/* http://10.0.0.3
+}
+
+# Home Assistant
+https://tgb-io.ddns.net:8124 {
+    reverse_proxy http://10.0.0.10:8123
 }
 
 https://tgb-io.ddns.net:443 {
+    route /gotify/* {
+        uri strip_prefix /gotify
+	# Gotify server
+        reverse_proxy 10.0.0.10:1245
+    }
+    
+    # Nextcloud
     reverse_proxy 10.0.0.10:11000
 }
 
+# Nextcloud AIO admin
 https://tgb-io.ddns.net:8443 {
     reverse_proxy https://10.0.0.10:8080 {
         transport http {
